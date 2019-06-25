@@ -991,3 +991,33 @@
 
 1561413672 c:\users\wombat\desktop\en_szkielet07b_win\foot.h
 
+1559403293 source:c:\users\wombat\desktop\projektgrafikas4\lodepng.cpp
+	"lodepng.h"
+	<stdio.h>
+	<stdlib.h>
+	<fstream>
+
+1559403293 c:\users\wombat\desktop\projektgrafikas4\lodepng.h
+	<string.h>
+	<vector>
+	<string>
+	"lodepng.h"
+	<iostream>
+	"lodepng.h"
+
+1559403293 source:c:\users\wombat\desktop\projektgrafikas4\shaderprogram.cpp
+	"shaderprogram.h"
+
+1559403293 c:\users\wombat\desktop\projektgrafikas4\shaderprogram.h
+	"GL/glew.h"
+	"stdio.h"
+
+1559403293 c:\users\wombat\desktop\projektgrafikas4\glew\include\gl\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<Availability.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+

@@ -23,6 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <glm/gtc/matrix_transform.hpp>
 #include <stdlib.h>
 #include <stdio.h>
+#include <vector>
+#include <fstream>
 #include "constants.h"
 #include "lodepng.h"
 #include "shaderprogram.h"
@@ -36,6 +38,23 @@ float speed_x=0; //angular speed in radians
 float speed_y=0; //angular speed in radians
 float aspectRatio=1;
 ShaderProgram *sp; //Pointer to the shader program
+bool activeLeg=false;
+std::vector<float*> steps;
+long long frameNo=0;
+
+void loadSteps(){
+    float temp[2];
+    std::ifstream stepFile;
+    stepFile.open("steps.txt");
+    while(!stepFile.eof())
+    {
+        stepFile>>temp[0]>>temp[1];
+        steps.push_back(temp);
+    }
+    stepFile.close();
+}
+
+
 //Error processing callback procedure
 void error_callback(int error, const char* description) {
 	fputs(description, stderr);
@@ -92,7 +111,7 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
         glm::vec3(0.0f,1.0f,0.0f)); //compute view matrix
     V=glm::rotate(V,angle_y,glm::vec3(1.0f,0.0f,0.0f)); //Compute model matrix
     V=glm::rotate(V,angle_x,glm::vec3(0.0f,1.0f,0.0f)); //Compute model matrix
-    glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 1.0f, 50.0f); //compute projection matrix
+    glm::mat4 P=glm::perspective(76.0f*PI/180.0f, aspectRatio, 1.0f, 50.0f); //compute projectioun matrix
 
     glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
     glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
@@ -111,10 +130,14 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
     drawFoot(sp,glm::vec3(-0.5f,-0.7f,0.1f), d );
     drawFoot(sp,glm::vec3(0.5f,-0.7f,0.1f), d );
     glfwSwapBuffers(window);
+    frameNo++;
 }
 
 int main(void)
 {
+
+    loadSteps();
+
 	GLFWwindow* window; //Pointer to object that represents the application window
 
 	glfwSetErrorCallback(error_callback);//Register error processing callback procedure
