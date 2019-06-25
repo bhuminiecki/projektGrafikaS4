@@ -145,19 +145,30 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
     glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
     glUniform4f(sp->u("lp"),0,0,-6,1); //Light coordinates in the world space
 
-
+/*
     float a[3] = {0.0f,0.0f,0.0f};
     float b[3] = {0.0f,0.0f,1.57f};
-    float c[3] = {0.0f,0.0f,0.0f};
-    float d[3] = {1.57f,1.57f,3.14f};
+    float c[3] = {0.0f,0.0f,1.57f};
+    float d[3] = {0.0f,0.0f,0.0f};
+    float e[3] = {0.0f,0.0f,0.0f};
+    float f[3] = {1.57f,1.57f,3.14f};
+    float g[3] = {1.57f,1.57f,3.14f};
+    */
+    float a[3] = {-2.24806473,0.37843192,2.62649665};
+    float b[3] = { 2.15565714,0.41637413,0.56956138};
+    float d[3] = {-2.15565714,0.41637413,2.57203127};
+    float c[3] = {2.33805787,0.34114489,0.46238989};
+    float e[3] = {-2.33805787,0.34114489,2.67920277};
+    float f[3] = {1.57f,1.57f,3.14f};
+    float g[3] = {1.57f,1.57f,3.14f};
     glm::mat4 M=glm::mat4(1.0f);
     glm::mat4 Mp = drawPelvis(sp,glm::vec3(0.0f,0.0f,0.0f), a ,tex0,M);
     glm::mat4 Mlh = drawBone(sp,glm::vec3(0.5f,0.0f,0.0f), b ,tex0, Mp);
-    glm::mat4 Mrh = drawBone(sp,glm::vec3(-0.5f,0.0f,0.0f), b ,tex0, Mp);
-    glm::mat4 Mln = drawBone(sp,glm::vec3(-1.0f,0.0f,0.0f), c ,tex0, Mlh);
-    glm::mat4 Mrn = drawBone(sp,glm::vec3(-1.0f,0.0f,0.0f), c ,tex0, Mrh);
-    glm::mat4 Mlf = drawFoot(sp,glm::vec3(-1.0f,0.0f,0.0f), d ,tex0, Mln);
-    glm::mat4 Mrf = drawFoot(sp,glm::vec3(-1.0f,0.0f,0.0f), d ,tex0, Mrn);
+    glm::mat4 Mrh = drawBone(sp,glm::vec3(-0.5f,0.0f,0.0f), c ,tex0, Mp);
+    glm::mat4 Mln = drawBone(sp,glm::vec3(-1.0f,0.0f,0.0f), d ,tex0, Mlh);
+    glm::mat4 Mrn = drawBone(sp,glm::vec3(-1.0f,0.0f,0.0f), e ,tex0, Mrh);
+    glm::mat4 Mlf = drawFoot(sp,glm::vec3(-1.0f,0.0f,0.0f), f ,tex0, Mln);
+    glm::mat4 Mrf = drawFoot(sp,glm::vec3(-1.0f,0.0f,0.0f), g ,tex0, Mrn);
     glfwSwapBuffers(window);
     frameNo++;
 }
