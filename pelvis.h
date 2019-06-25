@@ -262,7 +262,7 @@ float pelvisVertices[]={
 				1.0f,1.0f, 1.0f,0.0f, 0.0f,0.0f,
 			};
 
-void drawPelvis(ShaderProgram *sp, glm::vec3 translation, float rotation[3])
+glm::mat4 drawPelvis(ShaderProgram *sp, glm::vec3 translation, float rotation[3], GLuint tex, glm::mat4 M)
 {
     float* verts=pelvisVertices;
     float* normals=pelvisNormals;
@@ -270,7 +270,7 @@ void drawPelvis(ShaderProgram *sp, glm::vec3 translation, float rotation[3])
     int vertexCount=pelvisVertexCount;
 
 
-        glm::mat4 M=glm::mat4(1.0f);
+        //glm::mat4 M=glm::mat4(1.0f);
         M=glm::translate(M,translation);
         M=glm::rotate(M,rotation[0],glm::vec3(1.0f,0.0f,0.0f)); //Compute model matrix
         M=glm::rotate(M,rotation[1],glm::vec3(0.0f,1.0f,0.0f)); //Compute model matrix
@@ -294,6 +294,7 @@ void drawPelvis(ShaderProgram *sp, glm::vec3 translation, float rotation[3])
         glDisableVertexAttribArray(sp->a("vertex")); //Disable sending data to the attribute vertex
         glDisableVertexAttribArray(sp->a("normal")); //Disable sending data to the attribute normal
         glDisableVertexAttribArray(sp->a("color")); //Disable sending data to the attribute color
+        return M;
 }
 
 

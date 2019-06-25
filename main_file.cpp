@@ -41,6 +41,7 @@ ShaderProgram *sp; //Pointer to the shader program
 bool activeLeg=false;
 std::vector<float*> steps;
 long long frameNo=0;
+GLuint tex0;
 
 void loadSteps(){
     float temp[2];
@@ -82,6 +83,30 @@ void windowResizeCallback(GLFWwindow* window,int width,int height) {
 }
 
 
+//Function for reading texture files
+GLuint readTexture(const char* filename) {
+  GLuint tex;
+  glActiveTexture(GL_TEXTURE0);
+
+  //Read into computers memory
+  std::vector<unsigned char> image;   //Allocate data structure for the image
+  unsigned width, height;   //Variables, which will be set to image dimensions
+  //Read image
+  unsigned error = lodepng::decode(image, width, height, filename);
+
+  //Import to graphics card memory
+  glGenTextures(1,&tex); //Initialize a handle
+  glBindTexture(GL_TEXTURE_2D, tex); //Activate the handle
+  //Copy image from computers memory to graphics cards memory
+  glTexImage2D(GL_TEXTURE_2D, 0, 4, width, height, 0,
+    GL_RGBA, GL_UNSIGNED_BYTE, (unsigned char*) image.data());
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  return tex;
+}
+
 //Initialization code procedure
 void initOpenGLProgram(GLFWwindow* window) {
 	//************Place any code here that needs to be executed once, at the program start************
@@ -91,11 +116,13 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glfwSetKeyCallback(window,keyCallback);
 	sp=new ShaderProgram("vertex.glsl","geometry.glsl","fragment.glsl");
 
+    tex0=readTexture("stripes.png");
 }
 
 //Release resources allocated by the program
 void freeOpenGLProgram(GLFWwindow* window) {
 	//************Place any code here that needs to be executed once, after the main loop ends************
+	glDeleteTextures(1,&tex0);
 	delete sp;
 }
 
@@ -113,22 +140,24 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
     V=glm::rotate(V,angle_x,glm::vec3(0.0f,1.0f,0.0f)); //Compute model matrix
     glm::mat4 P=glm::perspective(76.0f*PI/180.0f, aspectRatio, 1.0f, 50.0f); //compute projectioun matrix
 
+    sp->use();
     glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
     glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
+    glUniform4f(sp->u("lp"),0,0,-6,1); //Light coordinates in the world space
 
-    sp->use();
 
     float a[3] = {0.0f,0.0f,0.0f};
-    float b[3] = {0.5f,0.0f,1.57f};
-    float c[3] = {-0.6f,0.5f,1.57f};
-    float d[3] = {1.57f,0.0f,3.14f};
-    drawPelvis(sp,glm::vec3(0.0f,1.0f,0.0f), a );
-    drawBone(sp,glm::vec3(0.5f,1.0f,0.0f), b );
-    drawBone(sp,glm::vec3(-0.5f,1.0f,0.0f), b );
-    drawBone(sp,glm::vec3(0.5f,0.15f,-0.5f), c );
-    drawBone(sp,glm::vec3(-0.5f,0.15f,-0.5f), c );
-    drawFoot(sp,glm::vec3(-0.5f,-0.7f,0.1f), d );
-    drawFoot(sp,glm::vec3(0.5f,-0.7f,0.1f), d );
+    float b[3] = {0.0f,0.0f,1.57f};
+    float c[3] = {0.0f,0.0f,0.0f};
+    float d[3] = {1.57f,1.57f,3.14f};
+    glm::mat4 M=glm::mat4(1.0f);
+    glm::mat4 Mp = drawPelvis(sp,glm::vec3(0.0f,0.0f,0.0f), a ,tex0,M);
+    glm::mat4 Mlh = drawBone(sp,glm::vec3(0.5f,0.0f,0.0f), b ,tex0, Mp);
+    glm::mat4 Mrh = drawBone(sp,glm::vec3(-0.5f,0.0f,0.0f), b ,tex0, Mp);
+    glm::mat4 Mln = drawBone(sp,glm::vec3(-1.0f,0.0f,0.0f), c ,tex0, Mlh);
+    glm::mat4 Mrn = drawBone(sp,glm::vec3(-1.0f,0.0f,0.0f), c ,tex0, Mrh);
+    glm::mat4 Mlf = drawFoot(sp,glm::vec3(-1.0f,0.0f,0.0f), d ,tex0, Mln);
+    glm::mat4 Mrf = drawFoot(sp,glm::vec3(-1.0f,0.0f,0.0f), d ,tex0, Mrn);
     glfwSwapBuffers(window);
     frameNo++;
 }

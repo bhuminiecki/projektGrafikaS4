@@ -265,22 +265,27 @@ float boneVertices[]={
 				1.0f,1.0f, 1.0f,0.0f, 0.0f,0.0f,
 			};
 
-void drawBone(ShaderProgram *sp, glm::vec3 translation, float rotation[3])
+glm::mat4 drawBone(ShaderProgram *sp, glm::vec3 translation, float rotation[3], GLuint tex, glm::mat4 M)
 {
     float* verts=boneVertices;
     float* normals=boneNormals;
     float* colors=boneColors;
+    float* texCoords=boneTexCoords;
     int vertexCount=boneVertexCount;
 
 
-        glm::mat4 M=glm::mat4(1.0f);
+        //glm::mat4 M=glm::mat4(1.0f);
         M=glm::translate(M,translation);
         M=glm::rotate(M,rotation[0],glm::vec3(1.0f,0.0f,0.0f)); //Compute model matrix
         M=glm::rotate(M,rotation[1],glm::vec3(0.0f,1.0f,0.0f)); //Compute model matrix
         M=glm::rotate(M,rotation[2],glm::vec3(0.0f,0.0f,1.0f)); //Compute model matrix
 
+
         glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
 
+        glUniform1i(sp->u("textureMap0"),0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D,tex);
 
         glEnableVertexAttribArray(sp->a("vertex")); //Enable sending data to the attribute vertex
         glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,verts); //Specify source of the data for the attribute vertex
@@ -288,8 +293,8 @@ void drawBone(ShaderProgram *sp, glm::vec3 translation, float rotation[3])
         glEnableVertexAttribArray(sp->a("normal")); //Enable sending data to the attribute normal
         glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,normals); //Specify source of the data for the attribute vertex
 
-        glEnableVertexAttribArray(sp->a("color")); //Enable sending data to the attribute color
-        glVertexAttribPointer(sp->a("color"),4,GL_FLOAT,false,0,colors); //Specify source of the data for the attribute vertex
+        glEnableVertexAttribArray(sp->a("texCoord0")); //Enable sending data to the attribute color
+        glVertexAttribPointer(sp->a("texCoord0"),4,GL_FLOAT,false,0,texCoords); //Specify source of the data for the attribute vertex
 
 
         glDrawArrays(GL_TRIANGLES,0,boneVertexCount); //Draw the object
@@ -297,6 +302,7 @@ void drawBone(ShaderProgram *sp, glm::vec3 translation, float rotation[3])
         glDisableVertexAttribArray(sp->a("vertex")); //Disable sending data to the attribute vertex
         glDisableVertexAttribArray(sp->a("normal")); //Disable sending data to the attribute normal
         glDisableVertexAttribArray(sp->a("color")); //Disable sending data to the attribute color
+    return M;
 }
 
 
