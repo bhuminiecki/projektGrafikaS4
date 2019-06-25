@@ -155,13 +155,14 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
     float f[3] = {1.57f,1.57f,3.14f};
     float g[3] = {1.57f,1.57f,3.14f};
     */
-    float a[3] = {-2.24806473,0.37843192,2.62649665};
-    float b[3] = { 2.15565714,0.41637413,0.56956138};
-    float d[3] = {-2.15565714,0.41637413,2.57203127};
-    float c[3] = {2.33805787,0.34114489,0.46238989};
-    float e[3] = {-2.33805787,0.34114489,2.67920277};
-    float f[3] = {1.57f,1.57f,3.14f};
-    float g[3] = {1.57f,1.57f,3.14f};
+
+    float a[3] = {0.0f,0.0f,0.0f};
+    float b[3] = {0.74806473,0.0f,1.57f};
+    float c[3] = {-0.74806473f,0.0f,1.57f};
+    float d[3] = {0.0,0.37843192,0.0f};
+    float e[3] = {0.0f,0.37843192,0.0f};
+    float f[3] = {0.0f,0.0f,0.0f};
+    float g[3] = {0.3f,0.0f,0.0f};
     glm::mat4 M=glm::mat4(1.0f);
     glm::mat4 Mp = drawPelvis(sp,glm::vec3(0.0f,0.0f,0.0f), a ,tex0,M);
     glm::mat4 Mlh = drawBone(sp,glm::vec3(0.5f,0.0f,0.0f), b ,tex0, Mp);

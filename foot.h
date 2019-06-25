@@ -280,6 +280,8 @@ glm::mat4 drawFoot(ShaderProgram *sp, glm::vec3 translation, float rotation[3], 
 
         //glm::mat4 M=glm::mat4(1.0f);
         M=glm::translate(M,translation);
+        M=glm::rotate(M,1.57f,glm::vec3(1.0f,0.0f,0.0f));
+        M=glm::rotate(M,1.57f,glm::vec3(0.0f,1.0f,0.0f));
         M=glm::rotate(M,rotation[0],glm::vec3(1.0f,0.0f,0.0f)); //Compute model matrix
         M=glm::rotate(M,rotation[1],glm::vec3(0.0f,1.0f,0.0f)); //Compute model matrix
         M=glm::rotate(M,rotation[2],glm::vec3(0.0f,0.0f,1.0f)); //Compute model matrix
