@@ -145,6 +145,7 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
     glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
     glUniform4f(sp->u("lp"),0,0,-6,1); //Light coordinates in the world space
 
+    //FULL WYPROST
 /*
     float a[3] = {0.0f,0.0f,0.0f};
     float b[3] = {0.0f,0.0f,1.57f};
