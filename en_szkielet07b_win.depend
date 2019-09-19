@@ -1008,7 +1008,7 @@
 1559403293 source:c:\users\wombat\desktop\projektgrafikas4\shaderprogram.cpp
 	"shaderprogram.h"
 
-1559403293 c:\users\wombat\desktop\projektgrafikas4\shaderprogram.h
+1568909478 c:\users\wombat\desktop\projektgrafikas4\shaderprogram.h
 	"GL/glew.h"
 	"stdio.h"
 
@@ -1021,7 +1021,7 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1561486181 source:c:\users\wombat\desktop\projektgrafikas4\main_file.cpp
+1568919731 source:c:\users\wombat\desktop\projektgrafikas4\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
@@ -1034,11 +1034,11 @@
 	"constants.h"
 	"lodepng.h"
 	"shaderprogram.h"
-	"myCube.h"
 	"myTeapot.h"
 	"pelvis.h"
 	"bone.h"
 	"foot.h"
+	"floor.h"
 
 1559403293 c:\users\wombat\desktop\projektgrafikas4\glfw\include\glfw\glfw3.h
 	<stddef.h>
@@ -1945,13 +1945,15 @@
 
 1559403293 c:\users\wombat\desktop\projektgrafikas4\constants.h
 
-1561411929 c:\users\wombat\desktop\projektgrafikas4\mycube.h
+1568909409 c:\users\wombat\desktop\projektgrafikas4\mycube.h
 
 1559403293 c:\users\wombat\desktop\projektgrafikas4\myteapot.h
 
-1561485859 c:\users\wombat\desktop\projektgrafikas4\pelvis.h
+1568913940 c:\users\wombat\desktop\projektgrafikas4\pelvis.h
 
-1561486008 c:\users\wombat\desktop\projektgrafikas4\bone.h
+1568913933 c:\users\wombat\desktop\projektgrafikas4\bone.h
 
-1561485862 c:\users\wombat\desktop\projektgrafikas4\foot.h
+1568913937 c:\users\wombat\desktop\projektgrafikas4\foot.h
+
+1568914696 c:\users\wombat\desktop\projektgrafikas4\floor.h
 

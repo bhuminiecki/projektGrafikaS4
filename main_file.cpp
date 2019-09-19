@@ -28,29 +28,41 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "constants.h"
 #include "lodepng.h"
 #include "shaderprogram.h"
-#include "myCube.h"
 #include "myTeapot.h"
 #include "pelvis.h"
 #include "bone.h"
 #include "foot.h"
+#include "floor.h"
 
 float speed_x=0; //angular speed in radians
 float speed_y=0; //angular speed in radians
 float aspectRatio=1;
 ShaderProgram *sp; //Pointer to the shader program
 bool activeLeg=false;
-std::vector<float*> steps;
+std::vector<std::vector<float>> steps;
 long long frameNo=0;
+
 GLuint tex0;
+GLuint spec0;
+GLuint tex1;
+GLuint spec1;
 
 void loadSteps(){
-    float temp[2];
+    std::vector<float> temp;
+    float buff;
     std::ifstream stepFile;
     stepFile.open("steps.txt");
     while(!stepFile.eof())
     {
-        stepFile>>temp[0]>>temp[1];
+        for(int i=0;i<9;i++)
+        {
+            stepFile>>buff;
+            temp.push_back(buff);
+        }
+
+        //printf("%f\n",temp[1]);
         steps.push_back(temp);
+        temp.clear();
     }
     stepFile.close();
 }
@@ -114,22 +126,35 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glEnable(GL_DEPTH_TEST);
 	glfwSetWindowSizeCallback(window,windowResizeCallback);
 	glfwSetKeyCallback(window,keyCallback);
-	sp=new ShaderProgram("vertex.glsl","geometry.glsl","fragment.glsl");
+	sp=new ShaderProgram("vertex.glsl",NULL,"fragment.glsl");
 
-    tex0=readTexture("stripes.png");
+    tex0=readTexture("metal.png");
+    spec0=readTexture("metal_spec.png");
+    tex1=readTexture("cobblestone.png");
+    spec1=readTexture("cobblestone_spec.png");
 }
 
 //Release resources allocated by the program
 void freeOpenGLProgram(GLFWwindow* window) {
 	//************Place any code here that needs to be executed once, after the main loop ends************
 	glDeleteTextures(1,&tex0);
+	glDeleteTextures(1,&spec0);
+	glDeleteTextures(1,&tex1);
+	glDeleteTextures(1,&spec1);
 	delete sp;
 }
 
 //Drawing procedure
 void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
 	//************Place any code here that draws something inside the window******************l
+    std::vector<float> temp;
+    if((frameNo)<steps.size())
+    {
 
+    } else {
+
+    }
+    temp = steps[frameNo%steps.size()];
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glm::mat4 V=glm::lookAt(
@@ -138,39 +163,33 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
         glm::vec3(0.0f,1.0f,0.0f)); //compute view matrix
     V=glm::rotate(V,angle_y,glm::vec3(1.0f,0.0f,0.0f)); //Compute model matrix
     V=glm::rotate(V,angle_x,glm::vec3(0.0f,1.0f,0.0f)); //Compute model matrix
+
     glm::mat4 P=glm::perspective(76.0f*PI/180.0f, aspectRatio, 1.0f, 50.0f); //compute projectioun matrix
 
     sp->use();
     glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
     glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
-    glUniform4f(sp->u("lp"),0,0,-6,1); //Light coordinates in the world space
+    glUniform4f(sp->u("lp0"),-3,2,-5,1); //Light coordinates in the world space
+    glUniform4f(sp->u("lp1"),2,-1.5,6,1);
 
-    //FULL WYPROST
-/*
-    float a[3] = {0.0f,0.0f,0.0f};
-    float b[3] = {0.0f,0.0f,1.57f};
-    float c[3] = {0.0f,0.0f,1.57f};
-    float d[3] = {0.0f,0.0f,0.0f};
-    float e[3] = {0.0f,0.0f,0.0f};
-    float f[3] = {1.57f,1.57f,3.14f};
-    float g[3] = {1.57f,1.57f,3.14f};
-    */
+    float a[3] = {0.0,0,0.0};
+    float b[3] = {temp[0],temp[2]+1.57079632679,1.57079632679};
+    float c[3] = {temp[3],temp[5]-1.57079632679,1.57079632679};
+    float d[3] = {0.0,3.14159265359-temp[1],0.0};
+    float e[3] = {0.0,3.14159265359-temp[4],0.0};
+    float f[3] = {temp[0]+temp[1]-3.14159265359,0.0,3.14159265359};
+    float g[3] = {temp[3]+temp[4]-3.14159265359,0.0,3.14159265359};
 
-    float a[3] = {0.0f,0.0f,0.0f};
-    float b[3] = {0.74806473,0.0f,1.57f};
-    float c[3] = {-0.74806473f,0.0f,1.57f};
-    float d[3] = {0.0,0.37843192,0.0f};
-    float e[3] = {0.0f,0.37843192,0.0f};
-    float f[3] = {0.0f,0.0f,0.0f};
-    float g[3] = {0.3f,0.0f,0.0f};
     glm::mat4 M=glm::mat4(1.0f);
-    glm::mat4 Mp = drawPelvis(sp,glm::vec3(0.0f,0.0f,0.0f), a ,tex0,M);
-    glm::mat4 Mlh = drawBone(sp,glm::vec3(0.5f,0.0f,0.0f), b ,tex0, Mp);
-    glm::mat4 Mrh = drawBone(sp,glm::vec3(-0.5f,0.0f,0.0f), c ,tex0, Mp);
-    glm::mat4 Mln = drawBone(sp,glm::vec3(-1.0f,0.0f,0.0f), d ,tex0, Mlh);
-    glm::mat4 Mrn = drawBone(sp,glm::vec3(-1.0f,0.0f,0.0f), e ,tex0, Mrh);
-    glm::mat4 Mlf = drawFoot(sp,glm::vec3(-1.0f,0.0f,0.0f), f ,tex0, Mln);
-    glm::mat4 Mrf = drawFoot(sp,glm::vec3(-1.0f,0.0f,0.0f), g ,tex0, Mrn);
+
+    glm::mat4 Mp = drawPelvis(sp,glm::vec3(temp[6],temp[8]-2.0f,temp[7]), a, M, tex0, spec0);
+    glm::mat4 Mlh = drawBone(sp,glm::vec3(0.5f,0.0f,0.0f), b, Mp, tex0, spec0);
+    glm::mat4 Mrh = drawBone(sp,glm::vec3(-0.5f,0.0f,0.0f), c, Mp, tex0, spec0);
+    glm::mat4 Mln = drawBone(sp,glm::vec3(-1.0f,0.0f,0.0f), d, Mlh, tex0, spec0);
+    glm::mat4 Mrn = drawBone(sp,glm::vec3(-1.0f,0.0f,0.0f), e, Mrh, tex0, spec0);
+    glm::mat4 Mlf = drawFoot(sp,glm::vec3(-1.0f,0.0f,0.0f), f, Mln, tex0, spec0);
+    glm::mat4 Mrf = drawFoot(sp,glm::vec3(-1.0f,0.0f,0.0f), g, Mrn, tex0, spec0);
+    glm::mat4 Mfloor = drawFloor(sp,glm::vec3(0.0f,-2.0f,0.0f), M, tex1, spec1);
     glfwSwapBuffers(window);
     frameNo++;
 }
@@ -179,6 +198,7 @@ int main(void)
 {
 
     loadSteps();
+
 
 	GLFWwindow* window; //Pointer to object that represents the application window
 
@@ -208,7 +228,7 @@ int main(void)
 
 	initOpenGLProgram(window); //Call initialization procedure
 
-
+	//printf("%f",steps[1][1]);
 	float angle_x=0; //current rotation angle of the object, x axis
 	float angle_y=0; //current rotation angle of the object, y axis
 	glfwSetTime(0); //Zero the timer

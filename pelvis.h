@@ -1,5 +1,5 @@
 #ifndef PELVIS_H_INCLUDED
-#define PELVIS_H_INCLUDED
+#define PELVIS_H_INCLUDE
 
 int pelvisVertexCount=36;
 
@@ -181,59 +181,60 @@ float pelvisVertices[]={
 
 			float pelvisVertexNormals[]={
 				//Wall 1
-				1.0f,-1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f,-1.0f,0.0f,
-				-1.0f,-1.0f,-1.0f,0.0f,
+				 //Wall 1
+				0.5f,-0.025f,-0.025f,0.0f,
+				-0.5f, 0.025f,-0.025f,0.0f,
+				-0.5f,-0.025f,-0.025f,0.0f,
 
-				1.0f,-1.0f,-1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f,-1.0f,0.0f,
+				0.5f,-0.025f,-0.025f,0.0f,
+				0.5f, 0.025f,-0.025f,0.0f,
+				-0.5f, 0.025f,-0.025f,0.0f,
 
                 //Wall 2
-				-1.0f,-1.0f, 1.0f,0.0f,
-				1.0f, 1.0f, 1.0f,0.0f,
-				1.0f,-1.0f, 1.0f,0.0f,
+				-0.5f,-0.025f, 0.025f,0.0f,
+				0.5f, 0.025f, 0.025f,0.0f,
+				0.5f,-0.025f, 0.025f,0.0f,
 
-				-1.0f,-1.0f, 1.0f,0.0f,
-				-1.0f, 1.0f, 1.0f,0.0f,
-				1.0f, 1.0f, 1.0f,0.0f,
+				-0.5f,-0.025f, 0.025f,0.0f,
+				-0.5f, 0.025f, 0.025f,0.0f,
+				0.5f, 0.025f, 0.025f,0.0f,
 
 
 				//Wall 3
-				-1.0f,-1.0f,-1.0f,0.0f,
-				1.0f,-1.0f, 1.0f,0.0f,
-				1.0f,-1.0f,-1.0f,0.0f,
+				-0.5f,-0.025f,-0.025f,0.0f,
+				0.5f,-0.025f, 0.025f,0.0f,
+				0.5f,-0.025f,-0.025f,0.0f,
 
-				-1.0f,-1.0f,-1.0f,0.0f,
-				-1.0f,-1.0f, 1.0f,0.0f,
-				1.0f,-1.0f, 1.0f,0.0f,
+				-0.5f,-0.025f,-0.025f,0.0f,
+				-0.5f,-0.025f, 0.025f,0.0f,
+				0.5f,-0.025f, 0.025f,0.0f,
 
 				//Wall 4
-				-1.0f, 1.0f, 1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
-				1.0f, 1.0f, 1.0f,0.0f,
+				-0.5f, 0.025f, 0.025f,0.0f,
+				0.5f, 0.025f,-0.025f,0.0f,
+				0.5f, 0.025f, 0.025f,0.0f,
 
-				-1.0f, 1.0f, 1.0f,0.0f,
-				-1.0f, 1.0f,-1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
+				-0.5f, 0.025f, 0.025f,0.0f,
+				-0.5f, 0.025f,-0.025f,0.0f,
+				0.5f, 0.025f,-0.025f,0.0f,
 
 				//Wall 5
-				-1.0f,-1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f, 1.0f,0.0f,
-				-1.0f,-1.0f, 1.0f,0.0f,
+				-0.5f,-0.025f,-0.025f,0.0f,
+				-0.5f, 0.025f, 0.025f,0.0f,
+				-0.5f,-0.025f, 0.025f,0.0f,
 
-				-1.0f,-1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f, 1.0f,0.0f,
+				-0.5f,-0.025f,-0.025f,0.0f,
+				-0.5f, 0.025f,-0.025f,0.0f,
+				-0.5f, 0.025f, 0.025f,0.0f,
 
                 //Wall 6
-				1.0f,-1.0f, 1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
-				1.0f,-1.0f,-1.0f,0.0f,
+				0.5f,-0.025f, 0.025f,0.0f,
+				0.5f, 0.025f,-0.025f,0.0f,
+				0.5f,-0.025f,-0.025f,0.0f,
 
-				1.0f,-1.0f, 1.0f,0.0f,
-				1.0f, 1.0f, 1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
+				0.5f,-0.025f, 0.025f,0.0f,
+				0.5f, 0.025f, 0.025f,0.0f,
+				0.5f, 0.025f,-0.025f,0.0f,
 			};
 
 			float pelvisTexCoords[]={
@@ -262,11 +263,12 @@ float pelvisVertices[]={
 				1.0f,1.0f, 1.0f,0.0f, 0.0f,0.0f,
 			};
 
-glm::mat4 drawPelvis(ShaderProgram *sp, glm::vec3 translation, float rotation[3], GLuint tex, glm::mat4 M)
+glm::mat4 drawPelvis(ShaderProgram *sp, glm::vec3 translation, float rotation[3], glm::mat4 M, GLuint tex0, GLuint spec0)
 {
     float* verts=pelvisVertices;
     float* normals=pelvisNormals;
     float* colors=pelvisColors;
+    float* coords=pelvisTexCoords;
     int vertexCount=pelvisVertexCount;
 
 
@@ -278,6 +280,13 @@ glm::mat4 drawPelvis(ShaderProgram *sp, glm::vec3 translation, float rotation[3]
 
         glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
 
+        glUniform1i(sp->u("textureMap0"),0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D,tex0);
+
+        glUniform1i(sp->u("specularMap0"),1);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D,spec0);
 
         glEnableVertexAttribArray(sp->a("vertex")); //Enable sending data to the attribute vertex
         glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,verts); //Specify source of the data for the attribute vertex
@@ -285,15 +294,15 @@ glm::mat4 drawPelvis(ShaderProgram *sp, glm::vec3 translation, float rotation[3]
         glEnableVertexAttribArray(sp->a("normal")); //Enable sending data to the attribute normal
         glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,normals); //Specify source of the data for the attribute vertex
 
-        glEnableVertexAttribArray(sp->a("color")); //Enable sending data to the attribute color
-        glVertexAttribPointer(sp->a("color"),4,GL_FLOAT,false,0,colors); //Specify source of the data for the attribute vertex
+        glEnableVertexAttribArray(sp->a("texCoord0")); //Enable sending data to the attribute color
+        glVertexAttribPointer(sp->a("texCoord0"),2,GL_FLOAT,false,0,coords); //Specify source of the data for the attribute vertex
 
 
         glDrawArrays(GL_TRIANGLES,0,pelvisVertexCount); //Draw the object
 
         glDisableVertexAttribArray(sp->a("vertex")); //Disable sending data to the attribute vertex
         glDisableVertexAttribArray(sp->a("normal")); //Disable sending data to the attribute normal
-        glDisableVertexAttribArray(sp->a("color")); //Disable sending data to the attribute color
+        glDisableVertexAttribArray(sp->a("texCoord0")); //Disable sending data to the attribute color
         return M;
 }
 
