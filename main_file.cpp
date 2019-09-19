@@ -54,7 +54,7 @@ void loadSteps(){
     stepFile.open("steps.txt");
     while(!stepFile.eof())
     {
-        for(int i=0;i<9;i++)
+        for(int i=0;i<10;i++)
         {
             stepFile>>buff;
             temp.push_back(buff);
@@ -172,7 +172,7 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
     glUniform4f(sp->u("lp0"),-3,2,-5,1); //Light coordinates in the world space
     glUniform4f(sp->u("lp1"),2,-1.5,6,1);
 
-    float a[3] = {0.0,0,0.0};
+    float a[3] = {0.0,temp[9],0.0};
     float b[3] = {temp[0],temp[2]+1.57079632679,1.57079632679};
     float c[3] = {temp[3],temp[5]-1.57079632679,1.57079632679};
     float d[3] = {0.0,3.14159265359-temp[1],0.0};

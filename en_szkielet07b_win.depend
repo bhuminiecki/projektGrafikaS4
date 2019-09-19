@@ -1021,7 +1021,7 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1568919731 source:c:\users\wombat\desktop\projektgrafikas4\main_file.cpp
+1568923105 source:c:\users\wombat\desktop\projektgrafikas4\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
